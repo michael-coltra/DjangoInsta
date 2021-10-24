@@ -1,0 +1,102 @@
+{% extends "insta_app/common.html" %}
+{% load crispy_forms_filters %}
+{% block title %} Home {% endblock %}
+
+{% load static %}
+
+{% block content %}
+
+    {% if not result %}
+        <form method="post" novalidate class="d-flex flex-column justify-content-center align-items-center gap-3 mt-3">
+            {% csrf_token %}
+            <div>
+                {{ form.username|as_crispy_field }}
+            </div>
+
+            {% if  private %}
+                <p id="privated" class="text-center">Private account! <br>We can't access <br> Try again...</p>
+            {% endif %}
+
+            <button type="submit" class="btn btn-success" id="btn-submit" onclick="show()">Search</button>
+
+            <div class="spinner-border" role="status">
+              <span class="sr-only"></span>
+            </div>
+        </form>
+
+
+    {% else %}
+
+        <table class="table table-sm table-dark">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr>
+              <th scope="row">profile pic</th>
+              <td><a href="{{ result.profile_pic_url }}">link</a></td>
+            </tr>
+
+            <tr>
+              <th scope="row">Username</th>
+              <td>{{ result.username }}</td>
+            </tr>
+            <tr>
+              <th scope="row">biography</th>
+              <td>{{ result.biography }}</td>
+            </tr>
+
+            <tr>
+              <th scope="row">full_name</th>
+              <td>{{ result.full_name }}</td>
+            </tr>
+
+            <tr>
+              <th scope="row">followers</th>
+              <td>{{ result.followers }}</td>
+            </tr>
+
+            <tr>
+              <th scope="row">external_url</th>
+              <td>{{ result.external_url }}</td>
+            </tr>
+
+            <tr>
+              <th scope="row">mediacount</th>
+              <td>{{ result.mediacount }}</td>
+            </tr>
+
+            <tr>
+              <th scope="row">igtvcount</th>
+              <td>{{ result.igtvcount }}</td>
+            </tr>
+
+          </tbody>
+        </table>
+
+    {% endif %}
+
+
+
+
+{% endblock %}
+
+{% block scripts %}
+
+    <script>
+        $('.spinner-border').hide();
+
+        function show() {
+            console.log("sjpw")
+            $('.spinner-border').show()
+            $('#btn-submit').hide()
+            {% if private %}
+                $('#privated').hide()
+            {% endif %}
+        }
+    </script>
+{% endblock %}
